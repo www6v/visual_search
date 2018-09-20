@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+package es.fea;
+// native
+message ImFeaArr {
+    repeated ImFea arr = 1;
+}
+message ImFea {
+    repeated double f = 1;
+}
+// dimensionality reduction;
+message ImFeaBinArr {
+    repeated ImFeaBin arr = 1;
+}
+message ImFeaBin {
+    repeated uint64 f = 1;
+}
+
