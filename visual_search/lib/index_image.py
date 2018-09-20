@@ -29,7 +29,17 @@ def _binarize_fea(x, thresh):
     ###print np.packbits(binary_vec).view('uint32');
     
     return np.packbits(binary_vec).view('uint32')
-
+    
+# add     
+###def transform_fea(fea, thres=0.1):
+def transform_fea(fea, thres=0.0005):      
+    "Binarize and pack feature vector"
+    return _transform_fea(fea, thres)
+    
+def _transform_fea(x, thresh):
+    binary_array = np.where(x >= thresh, 1, 0)
+    return binary_array;
+    
 
 def create_doc(im_src, tag, coords, fea_arr, fea_bin_arr, targetId, appId):
     """
@@ -54,7 +64,7 @@ def create_doc(im_src, tag, coords, fea_arr, fea_bin_arr, targetId, appId):
     obj_str = b64encode(f.SerializeToString()); ###print "f"; print  f;
     
     
-    doc['sigs'] = obj_str
+    ###doc['sigs'] = obj_str 
     doc['bin_sigs'] = obj_bin_str
     ###doc['im_src'] = im_name
     doc['im_src'] = im_src    
@@ -180,8 +190,10 @@ def photoFeatureToES():
     im_fea = np.loadtxt(fileFullName)
           
     # index document ifself
-    #        im_fea = extractor.extract_imfea(im)  /// 1-demesion  array
-    im_fea_bin = binarize_fea( arrayToVector(im_fea) )  # dimensionality reduction;
+    # im_fea = extractor.extract_imfea(im)  /// 1-demesion  array
+    ###im_fea_bin = binarize_fea( arrayToVector(im_fea) )  # dimensionality reduction;    
+    im_fea_bin = transform_fea( im_fea )
+    
     doc = {}
     
     

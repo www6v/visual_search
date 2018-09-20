@@ -27,7 +27,17 @@ def arrayToVector( im_fea ):
   length = len(im_fea)
   im_feaVector = im_fea.reshape(1, length)
   return im_feaVector;
-      
+
+
+# add     
+###def transform_fea(fea, thres=0.1): 
+def transform_fea(fea, thres=0.0005):    
+    "Binarize and pack feature vector"
+    return _transform_fea(fea, thres)
+    
+def _transform_fea(x, thresh):
+    binary_array = np.where(x >= thresh, 1, 0)
+    return binary_array;      
 
 QUERY = """
 {
@@ -135,7 +145,8 @@ im_fea = np.loadtxt(fileName)
 
 #fea = extractor.extract_imfea(img)
 #fea = extractor.binarize_fea(fea)
-fea = binarize_fea( arrayToVector(im_fea) );  ###print fea;
+###fea = binarize_fea( arrayToVector(im_fea) );  ###print fea;
+fea = transform_fea( im_fea );
 fea_str = ','.join([str(int(t)) for  t in fea]); print fea_str;
 query = QUERY.replace('##fea##', fea_str)
 
